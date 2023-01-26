@@ -1,0 +1,11 @@
+01-26-2023	Nicole's method for processing WGA paired end reads through BV-BRC/Patrick
+
+0)	upload data, make sure to tag data as reads
+	data is paired end
+	I'm uploading each pair to a separate folder. This makes the outputs easier to navigate. There's going to be a lot of outputs per file.
+
+1)	Taxonomic Classification (tools & services)
+	use all the default values
+	save the html output
+
+2)	
