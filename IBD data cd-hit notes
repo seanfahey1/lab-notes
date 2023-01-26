@@ -5,16 +5,23 @@ Running CD-Hit on each file indicidually, then combining each file in each datas
 	WGA 9-18
 	WGA 27-31
 
-using docker based cd-hit
-to build:
-	docker build --tag cd-hit https://raw.githubusercontent.com/weizhongli/cdhit/master/Docker/Dockerfile
+This is the process for WGA 9-18 dataset. Repeated same process for WGA 27-31.
 
-to run with local dir mounted as volume:
-	docker run -it --name cd-hit -v $(pwd):/home cd-hit
+0)	merged files with cat into "WGA9-18_combined.fasta"
+		touch WGA9-18_combined.fasta
+		cat WGA9... >> WGA9-18_combined.fasta
+		repeat for each file
 
-cd-hit command:
+*)	using docker based cd-hit
+	to build:
+		docker build --tag cd-hit https://raw.githubusercontent.com/weizhongli/cdhit/master/Docker/Dockerfile
 
+	to run with local dir mounted as volume:
+		docker run -it --name cd-hit -v $(pwd):/home cd-hit
+
+1) cd-hit command:
 	cd-hit -i WGA10patricassembled_contigs.fasta -o WGA10patricassembled_contigs_output.fasta -c 0.9 -n 5
 	ran for each file in the directory
 
-merged files with
+
+
