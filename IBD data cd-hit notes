@@ -20,8 +20,49 @@ This is the process for WGA 9-18 dataset. Repeated same process for WGA 27-31.
 		docker run -it --name cd-hit -v $(pwd):/home cd-hit
 
 1) cd-hit command:
-	cd-hit -i WGA10patricassembled_contigs.fasta -o WGA10patricassembled_contigs_output.fasta -c 0.9 -n 5
+		cd-hit \
+		-i WGA10patricassembled_contigs.fasta \
+		-o WGA10patricassembled_contigs_output.fasta \
+		-c 0.9 \
+		-n 5
+
 	ran for each file in the directory
+
+	scripted it out for the second dataset to save some time:
+
+		rm WGA27-31_combined.fasta
+		touch WGA27-31_combined.fasta
+
+		for f in *contigs.fasta
+		do
+			echo $f
+			cat $f >> WGA27-31_combined.fasta
+			y=${f%.*}
+
+			cd-hit -i $f -o $y"_output.fasta" -c 0.9 -n 5
+		done
+
+2) ran the cd-hit command for the merged file as well
+
+3) re did everything at -c 0.7 as well (per anca email that came later)
+	moved the 0.9 results to a separate 0.9 folder
+
+
+	file structure (tree) for WGA27-31 example:
+		.
+		|-- WGA27-31_combined.fasta
+		|-- WGA27_19029E2inRC119_assembly_contigs.fasta
+		|-- ...
+		|-- threshold_70pct
+		|   |-- WGA27-31_combined_output.fasta
+		|   |-- WGA27-31_combined_output.fasta.clstr
+		|   |-- WGA27_19029E2inRC119_assembly_contigs_output.fasta
+		|   |-- ...
+		`-- threshold_90pct
+		    |-- WGA27-31_combined_output.fasta
+		    |-- WGA27-31_combined_output.fasta.clstr
+		    |-- WGA27_19029E2inRC119_assembly_contigs_output.fasta
+		    |-- ...
 
 
 
