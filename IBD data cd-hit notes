@@ -1,0 +1,20 @@
+01-26-2023	Running CD-Hit on IBD WGA fasta files for Anca.
+Running CD-Hit on each file indicidually, then combining each file in each dataset into one master file and running CD-Hit on that.
+
+2 datasets:
+	WGA 9-18
+	WGA 27-31
+
+using docker based cd-hit
+to build:
+	docker build --tag cd-hit https://raw.githubusercontent.com/weizhongli/cdhit/master/Docker/Dockerfile
+
+to run with local dir mounted as volume:
+	docker run -it --name cd-hit -v $(pwd):/home cd-hit
+
+cd-hit command:
+
+	cd-hit -i WGA10patricassembled_contigs.fasta -o WGA10patricassembled_contigs_output.fasta -c 0.9 -n 5
+	ran for each file in the directory
+
+merged files with
