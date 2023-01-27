@@ -1,4 +1,8 @@
 01-26-2023	Running CD-Hit on IBD WGA fasta files for Anca.
+
+** NOTE: If running big files, don't forget to increase sytem resources for docker.
+
+
 Running CD-Hit on each file indicidually, then combining each file in each dataset into one master file and running CD-Hit on that.
 
 2 datasets:
@@ -63,6 +67,7 @@ This is the process for WGA 9-18 dataset. Repeated same process for WGA 27-31.
 		    |-- WGA27-31_combined_output.fasta.clstr
 		    |-- WGA27_19029E2inRC119_assembly_contigs_output.fasta
 		    |-- ...
+
 
 
 
