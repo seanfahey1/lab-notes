@@ -8,4 +8,17 @@
 	use all the default values
 	save the html output
 
-2)	
+2)	ComprehensiveGenomeAnalysis
+	Taxonomy name: select either Bacteria, or use the output from step 1
+	This takes a while to run
+
+	** WGA20: used Eubacteriales; taxonomy ID 186802
+	** WGA21: used Eubacteriales; taxonomy ID 186802
+	** WGA22: used Enterococcus avium; taxonomy ID 33945
+
+3)	Fastq for QC
+	Run with Trim, Paired_Filtered, FastQC
+
+4)	Assembly
+	select auto
+	
