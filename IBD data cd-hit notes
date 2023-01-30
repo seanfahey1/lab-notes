@@ -69,5 +69,26 @@ This is the process for WGA 9-18 dataset. Repeated same process for WGA 27-31.
 		    |-- ...
 
 
+*)	Re-did all work with -d 0 flag for CD-Hit. Apparently the output description in the clstr file is truncated by default.
+	command to automate:
 
+for f in *contigs.fasta
+do
+	echo $f
+	y=${f%.*}
+
+	cd-hit \
+	-i $f \
+	-o $y"_output.fasta" \
+	-c 0.7 \
+	-n 5 \
+	-d 0 
+done
+cd-hit \
+-i WGA9-18_combined.fasta \
+-o WGA9-18_combined_output.fasta \
+-c 0.7 \
+-n 5 \
+-d 0 
+mv *output* threshold_70pct
 
