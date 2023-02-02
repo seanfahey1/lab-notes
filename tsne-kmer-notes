@@ -25,10 +25,6 @@ processing reads into easier to work with files using seqtk:
 		│     │     │     ├── ...
 		│     │     │     ├── WGA27_S480_R1_001.fastq
 		│     │     │     └── WGA27_S480_R2_001.fastq
-		│     │     ├── WGA28_reads
-		│     │     │     ├── ...
-		│     │     │     ├── WGA28_S481_R1_001.fastq
-		│     │     │     └── WGA28_S481_R2_001.fastq
 		│     │     ├── ...
 		└── WGA9-18
 			  ├── reads
@@ -41,7 +37,7 @@ processing reads into easier to work with files using seqtk:
 	command used to convert all fastq to fasta:
 	for f in in */reads/*/*_S*_R*fastq	# just looking for a pattern that masks just the read files
 	do
-		o=${f%.*}".fasta"
+		o=${f%.*}".fasta"	$f but dropping the substring ".*"" (first occurance) and adding ".fasta"
 		seqtk seq -a "./"$f > "./"$o
 	done
 
@@ -50,7 +46,10 @@ processing reads into easier to work with files using seqtk:
 		Usually this means I gave it a filename that doesn't exist
 
 	checked with this command:
-		for f in */reads/*/*_S*_R*.fasta; do wc -l "./$f"; done
+		for f in */reads/*/*_S*_R*.fasta
+		do 
+			wc -l "./$f"
+		done
 
 	results look reasonable. Not sure what the error means but no problems running
 		8327844 ./WGA27-31/reads/WGA27_reads/WGA27_S480_R1_001.fasta
@@ -85,6 +84,16 @@ processing reads into easier to work with files using seqtk:
 		9127942 ./WGA9-18/reads/WGA9_reads_18940E1__/WGA9_S462_R2_001.fasta
 
 
+Edited kmer counting script to take 2 methods: file and contig
+   
+    method="file" means arrange the dataframe with each filename as the index,
+    method="contig" means arrange the dataframe with each contig header as the index
+
+    "file" is best used for reads in fasta format, where which read a kmer came from isn't useful info really.
+    "contig" is best for the assembled WGA fasta files, where we care about each contig as it's own data source.
+
+
+
 
 
 to-do:
@@ -95,24 +104,6 @@ to-do:
 
 - frap (ana cobian) can help with this, but Greg says that the plots don't work anymore 
 (or only worked on ana's system?)
-
-
-
-to do:
-figure out how to count kmers for reads files
-	grab the 2nd line, then every 4th
-	drop anything that has an N
-		if this doesn't work, drop anything that isn't ATCG
-
-	cat | awk (grab every nth line) | grep (to get the kmer)
-
-	or use seqtk to convert fastq to fasta!! then grep to ignore lines that start with >
-
-
-
-
-modify code to work with fastq reads
-
 
 
 
