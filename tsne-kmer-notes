@@ -1,0 +1,23 @@
+culturing pattern:
+enrichment1 -> enrichment2 -> [RC1, RC2, RC3, ...] -> sometimes [RC1, RC2, RC3, ...]
+
+enrichments are community of bacteria
+RC are specific bacteria strains
+
+
+reason for k-mer stuff:
+	see how many enrichments are actually needed to get out phages. Also if we're loosing anything by not choosing the right RC bacteria.
+
+
+
+to-do:
+- start with kmer size of 4 (256 possible nucleotide 4mers)
+- get all kmers for each sequence. Calculate relative frequency for each contig/read.
+
+- do this for contigs, then do this for read files.
+
+- frap (ana cobian) can help with this, but Greg says that the plots don't work anymore 
+(or only worked on ana's system?)
+
+
+
