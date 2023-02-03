@@ -97,13 +97,29 @@ Edited kmer counting script to take 2 methods: file and contig
 
 
 to-do:
-- start with kmer size of 4 (256 possible nucleotide 4mers)
-- get all kmers for each sequence. Calculate relative frequency for each contig/read.
-
-- do this for contigs, then do this for read files.
-
 - frap (ana cobian) can help with this, but Greg says that the plots don't work anymore 
-(or only worked on ana's system?)
+	(or only worked on ana's system?)
+	Might also let me reduce similar contigs? Run even without plots for now.
+
+
+- tsne for each culturing path E1 - E2 - RC1 - RC2
+- also make a PCA plot for each culturing path
+- do this for contigs and for reads
+
+- make the heatplot log scale
+- make the heatplot for reads as well. Might be easier to see things.
+
+- sort the heatplot by best clustering (use R base plotting heatmap. This is done automatically)
+	might need to play with height and width
+	not ggplot! the base one is better for this. ggplot won't sort or show heiarchical side plot.
+
+
+
+
+
+
+
+
 
 
 
