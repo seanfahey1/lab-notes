@@ -97,22 +97,37 @@ Edited kmer counting script to take 2 methods: file and contig
 
 
 to-do:
-- frap (ana cobian) can help with this, but Greg says that the plots don't work anymore 
-	(or only worked on ana's system?)
-	Might also let me reduce similar contigs? Run even without plots for now.
-
 
 - tsne for each culturing path E1 - E2 - RC1 - RC2
 - also make a PCA plot for each culturing path
 - do this for contigs and for reads
 
-- make the heatplot log scale
 - make the heatplot for reads as well. Might be easier to see things.
 
 - sort the heatplot by best clustering (use R base plotting heatmap. This is done automatically)
 	might need to play with height and width
 	not ggplot! the base one is better for this. ggplot won't sort or show heiarchical side plot.
 
+
+
+
+
+- move on from frap. Anvio should do what I want to do. Hamza is an expert at it.
+- repeat assemblies for high contig assembled data (11-18)
+	- also check quality of calls, esp. for smaller contigs. Might be worth noting if files with many contigs also have lower quality calls.
+
+	- maybe try assembling with different settings/assemblers to see if we get wildly different number of contigs
+
+- move stuff to the shared BV-BRC workspace
+
+
+- categories: phage, bacteria, prophage (bacteria with some phage results). Get the category for each contig.
+- there's always 4 on the tsne plot. make colors static and VERY distinct.
+- add plot point labels for contig #, length
+
+** 9-10-13-14 is the most interesting path for now
+
+- mv all WGA9 to WGA09 so they sort better
 
 
 
