@@ -130,8 +130,12 @@ to-do:
 - mv all WGA9 to WGA09 so they sort better
 
 
+- cd hit to cluster each WGA
+	take representative contigs from the clustered data (cd hit gives this)
+	then re-do the clustering across all paths, then against all WGAs (combining the clustered outputs)
 
-
+maybe faster way to get kmers
+grep -v ">" WGA10patricassembled_contigs.fasta | awk -v num=4 '{for(i=1;i<=length($0);i+=4) print substr($0,i,num)}'
 
 
 
