@@ -21,7 +21,7 @@ This is the process for WGA 9-18 dataset. Repeated same process for WGA 27-31.
 		docker build --tag cd-hit https://raw.githubusercontent.com/weizhongli/cdhit/master/Docker/Dockerfile
 
 	to run with local dir mounted as volume:
-		docker run -it --name cd-hit -v $(pwd):/home cd-hit
+		docker run -it --name cd-hit -v $(pwd):/opt cd-hit
 
 1) cd-hit command:
 		cd-hit \
@@ -91,4 +91,30 @@ cd-hit \
 -n 5 \
 -d 0 
 mv *output* threshold_70pct
+
+
+2023-02-08
+New method. Take .fasta outputs from cd-hit dereplications and merge each path. Then derep the path as a whole. This way we should see fewer contigs from the same WGA per cluster, and if we see multiple we know they aren't highly similar/overlapped.
+
+Then re-do this for a combination of all WGAs (not specific paths)
+
+code to do this:
+for f in path*derep.fasta; 
+do 
+	y=${f%.*}"_output.fasta"
+	cd-hit -i $f -o $y -c 0.7 -n 5
+done
+
+then for the combined file:
+cd-hit -i ALL_WGA_after_wga_derep.fasta -o ALL_WGA_after_wga_derep_output.fasta -c 0.7 -n 5
+
+** path#_after_wga_derep.fasta is the combined output.fasta files from the first run for each WGA from that path.
+
+******---- I did something wrong for the ALL file. Somehow I grabed a file that was already dereplicated. Need to merge all WGA_outputs into a single file and redo this one.
+	Repeated but same result. I'm rerunning it for the 90% thresh to see if anything is different for that group.
+
+
+
+
+
 

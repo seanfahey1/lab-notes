@@ -93,49 +93,112 @@ Edited kmer counting script to take 2 methods: file and contig
     "contig" is best for the assembled WGA fasta files, where we care about each contig as it's own data source.
 
 
+Created contig tsne for each path E1 - E2 - RC1 - RC2
+Looked into PCA plots, but I'll need some answers on how to do this. The PCA tutorials I found are all about using PCAs to actually predict stuff. Not sure if I need to do this.
 
-
-
-to-do:
-
-- tsne for each culturing path E1 - E2 - RC1 - RC2
-- also make a PCA plot for each culturing path
-- do this for contigs and for reads
-
-- make the heatplot for reads as well. Might be easier to see things.
-
+Something to look in to:
 - sort the heatplot by best clustering (use R base plotting heatmap. This is done automatically)
 	might need to play with height and width
 	not ggplot! the base one is better for this. ggplot won't sort or show heiarchical side plot.
 
 
+Moving on from frap. It won't give me the outputs I want. Anvio will work better.
+
+** 9-10-13-14 is the most interesting path for now
+
+
+faster way to get kmers/new method:
+
+	grep -v ">" WGA10patricassembled_contigs.fasta | awk -v num=4 '{for(i=1;i<=length($0);i+=4) print substr($0,i,num)}'
+
+	New method for reads:
+		- shell script to produce .kmer files
+		- kmer counter python script to generate normalized dataframes
+		- tsne plot script to produce plots
+
+
+Current workflow:
+
+for fastq paired-end read files:
+	
+	0) Note: read files already grouped by WGA.
+	1) get-kmers-from-fasta-reads.sh bash script to run seqtk and get reads with grep + awk 
+	2) counting-kmers.py to get kmer count dataframe for each WGA. Pay attention to args!! Especially method.
+	3) tsne.py to produce tsne plots
+		Need to manually select/mask for the WGAs I want in the script before producing each plot (Not automated)
+		Is this right??? Do I want 1 datapoint per read? I have 1 per WGA. Might need to change this workflow.
+
+for fasta contig files:
+	
+	0) Note: contig files are for one WGA each
+	1) counting-kmers.py to get kmer count dataframe for each contig. Pay attention to args.
+	2) blastn on microway
+	3) grep -A 1000 "Query= WGA" WGA9-18_blast_results.out > reduced_blast_results_9-18.out # to reduce filesize significantly before transfering. No need for the alignment stuff.
+	4) processing-blast-results.py
+	4) tsne.py to produce tsne plots
+		Need to manually select/mask for the WGAs I want in the script before producing each plot (Not automated)
+		Also manually add the assignment labels for plotting.
+
+
+Blast to get phage assignments for tsne plots:
+
+nohup blastn -db nt -query WGA27-31_combined.fasta -out blast-results/WGA27-31_blast_results.out
+grep -A 1000 "Query= " WGA27-31_blast_results.out > reduced_WGA27-31_blast_results.out
+processing-blast-resuts.py to get counts into a dataframe
+Then call tsne.py. For now, blast results csv needs to be edited into the main function.
 
 
 
-- move on from frap. Anvio should do what I want to do. Hamza is an expert at it.
+Re-ran WGA11 assembly on BV-BRC using 6 methods:
+	- auto/default settings
+	- 1 round racon, 1 round pilon
+	- comprehensive genome analysis with auto/default settings
+	- no trim, other settings as default
+	- unicycler
+	- spades
+	Spades assembler gave far more contigs (7119 contigs). All other outputs were identical with 929 contigs.
+
+
+
+To Do:
+
+<Patrick / BVBRC>
 - repeat assemblies for high contig assembled data (11-18)
 	- also check quality of calls, esp. for smaller contigs. Might be worth noting if files with many contigs also have lower quality calls.
 
 	- maybe try assembling with different settings/assemblers to see if we get wildly different number of contigs
 
-- move stuff to the shared BV-BRC workspace
+- check BV-BRC outputs to see if different methods have similar results
 
-
-- categories: phage, bacteria, prophage (bacteria with some phage results). Get the category for each contig.
-- there's always 4 on the tsne plot. make colors static and VERY distinct.
-- add plot point labels for contig #, length
-
-** 9-10-13-14 is the most interesting path for now
-
+<organization stuff>
 - mv all WGA9 to WGA09 so they sort better
 
+<tsne>
+- Need to get tsne plot working for reads. One for each path. 
+	Just set the df masking in the code directly because freqs. are normalized/scaled to each file anyway.
+	Make sure colors look good, axis/title labels, etc.
 
+- need to get blast results for each contig
+	classify as phage, prophage, or bacteria
+	add this to the dataframe as a column
+	use this column as label for the tsne plot
+		** modify tsne code to check for a "label" column and remove before doing tsne, then use as shape for plotly
+	For now: just label as any phage hits, any terminase/terl/integrase hits, or no hits
+
+- add plot point labels for contig #, length, phage hit %, etc.
+
+- make the heatplot for reads as well. Might be easier to see things.
+
+<cd-hit>
 - cd hit to cluster each WGA
 	take representative contigs from the clustered data (cd hit gives this)
 	then re-do the clustering across all paths, then against all WGAs (combining the clustered outputs)
 
-maybe faster way to get kmers
-grep -v ">" WGA10patricassembled_contigs.fasta | awk -v num=4 '{for(i=1;i<=length($0);i+=4) print substr($0,i,num)}'
+
+
+
+
+
 
 
 
