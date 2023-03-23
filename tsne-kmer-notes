@@ -199,7 +199,14 @@ To Do:
 
 
 
-
+BAC sequence hits
+find 2-3 homo sap. with BAC in name in top blast results:
+	WGA1_6
+	WGA1_29
+	WGA2_380
+get match portion with the BAC match from each of these 3 contigs
+blast just the overlap portion
+see if that hits a ton of BAC stuff. 
 
 
 
