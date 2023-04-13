@@ -36,7 +36,9 @@ samtools index [sorted bam file name]
 	generate bam index
 
 anvi-profile -i [sorted bam file name] -c [output-genome-file-name].db -o [output name] --cluster
-	anvio command
+	anvio profile command
+anvi-interactive -c [output-genome-file-name].db -p [output name]/PROFILE.db
+	anvio interactive command
 
 
 _command I ran_
@@ -47,7 +49,37 @@ bowtie2 -x test -1 ../reads/WGA27\ reads/WGA27_S480_R1_001.fastq.gz -2 ../reads/
 samtools view -F 4 -bS output.sam -o output.bam
 samtools sort output.bam -o output_sorted.bam
 samtools index output_sorted.bam
-anvi-profile -i output_sorted.bam -c test.db -o output_anvio --cluster
+anvi-profile -i output_sorted.bam -c test.db -o anvio-output --cluster
+anvi-interactive -c test.db -p anvio-output/PROFILE.db
+
+
+
+_script_
+read1="/Users/sean/workspace/Sean/sdsu/AncaLab/CD-Hit-analysis-of-IDB-data/WGA27-31/reads/WGA27_reads/WGA27_S480_R1_001.fastq.gz"
+
+read2="/Users/sean/workspace/Sean/sdsu/AncaLab/CD-Hit-analysis-of-IDB-data/WGA27-31/reads/WGA27_reads/WGA27_S480_R2_001.fastq.gz"
+
+fasta="../../../WGA27-31/WGA29_19029E2inRC121_assembly_contigs.fasta"
+sample="test-sample"
+folder="test-sample-folder"
+
+echo "anvi reformat" && beep
+anvi-script-reformat-fasta $fasta -o $sample.fasta --simplify-names
+anvi-gen-contigs-database -f $sample.fasta -o $sample.db
+
+bowtie2-build $sample.fasta $sample
+bowtie2 -x $sample -1 $read1 -2 $read2 -S $sample.sam
+
+samtools view -F 4 -bS $sample.sam -o $sample.bam
+samtools sort $sample.bam -o $sample"-sorted.bam"
+samtools index $sample"-sorted.bam"
+
+anvi-profile -i $sample"-sorted.bam" -c $sample.db -o $folder --cluster
+anvi-interactive -c $sample.db -p $folder/PROFILE.db
+
+
+
+
 
 
 Hamza script:
