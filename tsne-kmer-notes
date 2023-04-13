@@ -190,7 +190,7 @@ To Do:
 - make the heatplot for reads as well. Might be easier to see things.
 
 <cd-hit>
-- cd hit to cluster each WGA
+- cd hit to cluster each
 	take representative contigs from the clustered data (cd hit gives this)
 	then re-do the clustering across all paths, then against all WGAs (combining the clustered outputs)
 
@@ -205,8 +205,11 @@ find 2-3 homo sap. with BAC in name in top blast results:
 	WGA1_29
 	WGA2_380
 get match portion with the BAC match from each of these 3 contigs
-blast just the overlap portion
+blast just the overlap portion ***FROM THE COMPLIMENT***
 see if that hits a ton of BAC stuff. 
+
+
+perplexity: try 3, 5, 15, 25, 50, 100, 300
 
 
 

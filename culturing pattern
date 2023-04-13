@@ -1,0 +1,23 @@
+culturing pattern:
+enrichment1 -> enrichment2 -> [RC1, RC2, RC3, ...] -> sometimes [RC1, RC2, RC3, ...]
+
+enrichments are community of bacteria
+RC are specific bacteria strains
+
+
+
+
+FRAP - fragment recruitment (Ana Cobian)
+	Greg knows where to get this program
+
+	Gives you a map of reads from metagenome
+	Recruits reads to a reference and shows where they align
+
+	RUN THIS on the reads. We want to see if the reads from different contigs overlap with eachother. If they do, and if they blast to a phage, then we know that phage stays present through each enrichment/RC.
+
+
+
+reason for k-mer stuff:
+	see how many enrichments are actually needed to get out phages. Also if we're loosing anything by not choosing the right RC bacteria.
+
+

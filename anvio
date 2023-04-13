@@ -1,5 +1,70 @@
-Anvio
+# Anvio
 
-docker command:
-docker run -it -v $(PWD):/home -w /home -p 8080:8080 meren/anvio
+__pull command:__
+```docker pull meren/anvio:7```
+
+
+__docker run command:__
+
+```docker run --rm -it -v `pwd`:`pwd` -w `pwd` -p 8080:8080 meren/anvio:7```
+
+- make sure the directory contains the contig to assemble to and the reads file
+- 
+
+__anvio commands__
+
+_example_
+anvi-script-reformat-fasta [path to fasta] -o reformatted-fasta.fasta --simplify-names
+	make sure the fasta file headers are formatted well for annotation
+
+anvi-gen-contigs-database -f [path to fasta] -o [path to fasta].db
+	generate the contigs database file
+
+bowtie2-build [path to fasta] [output-genome-file-name]
+	build the genome file
+
+bowtie2 -x [output-genome-file-name] -1 [R1 fasta] -2 [R2 fasta] -S [output sam file name]
+	align reads to genome file (this will take some time)
+
+samtools view -F 4 -bS [output sam file name] -o [output bam file name]
+	convert sam to bam
+
+samtools sort [output bam file name] -o [sorted bam file name]
+	sort bam so index can be generated
+
+samtools index [sorted bam file name]
+	generate bam index
+
+anvi-profile -i [sorted bam file name] -c [output-genome-file-name].db -o [output name] --cluster
+	anvio command
+
+
+_command I ran_
+anvi-script-reformat-fasta ../../WGA27-31/WGA29_19029E2inRC121_assembly_contigs.fasta -o reformatted-fasta.fasta --simplify-names
+anvi-gen-contigs-database -f reformatted-fasta.fasta -o test.db
+bowtie2-build ../../WGA27-31/WGA27_19029E2inRC119_assembly_contigs.fasta test
+bowtie2 -x test -1 ../reads/WGA27\ reads/WGA27_S480_R1_001.fastq.gz -2 ../reads/WGA27\ reads/WGA27_S480_R2_001.fastq.gz -S output.sam
+samtools view -F 4 -bS output.sam -o output.bam
+samtools sort output.bam -o output_sorted.bam
+samtools index output_sorted.bam
+anvi-profile -i output_sorted.bam -c test.db -o output_anvio --cluster
+
+
+Hamza script:
+
+for sample in 5231115Blood 5261115Blood 5261416Blood 5261452Blood 5261533Blood 5261547Blood 5261645Blood 5271153Blood 5271234Blood 5271300Blood 5271328Blood 5271455Blood 5301202Blood 5301241Blood 5301305Blood 5301336Blood 5301436Blood 6031153Blood 6031231Blood 6031301Blood 6031327Blood 6031426Blood
+
+do
+	"Working on ${sample} ..."
+	bowtie2 -x Anvio/Axy10only -U Metagenomes/${sample}_R1.fastq -S Axy10onlyBr1/${sample}-Axy10onlyBr1.sam
+	samtools view -F 4 -bS Axy10onlyBr1/${sample}-Axy10onlyBr1.sam -o Axy10onlyBr1/${sample}-Axy10onlyBr1-RAW.bam
+	samtools sort Axy10onlyBr1/${sample}-Axy10onlyBr1-RAW.bam -o Axy10onlyBr1/${sample}-Axy10onlyBr1.bam
+	samtools index Axy10onlyBr1/${sample}-Axy10onlyBr1.bam 
+	anvi-profile -i Axy10onlyBr1/${sample}-Axy10onlyBr1.bam -c Anvio/Axy10only.db -o Axy10onlyBr1/${sample}-Axy10onlyBr1 -M 200
+	rm -rf Axy10onlyBr1/${sample}-Axy10onlyBr1.sam
+done
+
+
+
+
 
